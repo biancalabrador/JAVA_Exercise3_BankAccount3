@@ -16,6 +16,11 @@ public class Transaction {
     this.time_stamp = LocalDateTime.now();
   }
 
+  /** Returns the transaction amount. */
+  public double getAmount() {
+    return amount;
+  }
+
   @Override
   public String toString() {
     return "\nTransaction [type=" + type + ", amount=" + amount + ", time_stamp=" + time_stamp.format(TIME_FORMAT) + "]";

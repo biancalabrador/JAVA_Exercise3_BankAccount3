@@ -1,6 +1,8 @@
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /** Manages bank accounts and assigns each account a unique identifier. */
 public class BankAccountManager implements Bank {
@@ -37,6 +39,20 @@ public class BankAccountManager implements Bank {
   @Override
   public BankAccount getAccount(int id) {
     return accounts.get(id);
+  }
+
+  /** Returns transactions whose amounts are at least the specified amount. */
+  public List<Transaction> filterTransactionsAtOrAbove(double amount, List<Transaction> txList) {
+    return txList.stream()
+        .filter(transaction -> transaction.getAmount() >= amount)
+        .collect(Collectors.toList());
+  }
+
+  /** Returns transactions sorted by amount in ascending order. */
+  public List<Transaction> sortTransactionsByAmount(List<Transaction> txList) {
+    return txList.stream()
+        .sorted((first, second) -> Double.compare(first.getAmount(), second.getAmount()))
+        .collect(Collectors.toList());
   }
 
   /** Prints identifier, owner, and balance. */

@@ -19,17 +19,18 @@ public class BankAccount {
     this.transactionHistory = new ArrayList<>();
   }
 
-  /** Deposit unless the account is frozen. */
-  public void deposit(double amount) {
-    if (frozen) {
-      System.out.println("Account is FROZEN. Unable to transact.");
-      return;
-    }
-
-    System.out.printf("Amount deposited: %.2f%n", amount);
-    if (!Double.isFinite(amount) || amount <= 0) {
-      System.out.println("Invalid amount. Must be greater than 0");
-      return;
+  /** Deposits a positive amount unless the account is frozen. */
+  public void deposit(double amount) throws InvalidAmountException, AccountFrozenException {
+    try {
+      if (frozen) {
+        throw new AccountFrozenException("Account is FROZEN. Unable to transact.");
+      }
+      System.out.printf("Amount deposited: %.2f%n", amount);
+      if (!Double.isFinite(amount) || amount <= 0) {
+        throw new InvalidAmountException("Invalid amount. Must be greater than 0");
+      }
+    } catch (InvalidAmountException | AccountFrozenException exception) {
+      throw exception;
     }
 
     balance += amount;
@@ -38,19 +39,21 @@ public class BankAccount {
   }
 
   /** Withdraws when sufficient funds are available. */
-  public void withdraw(double amount) {
-    if (frozen) {
-      System.out.println("Account is FROZEN. Unable to transact.");
-      return;
-    }
-    System.out.printf("Amount withdrawn: %.2f%n", amount);
-    if (!Double.isFinite(amount) || amount <= 0) {
-      System.out.println("Invalid amount. Must be greater than 0");
-      return;
-    }
-    if (amount > balance) {
-      System.out.printf("Insufficient balance. Current balance: %.2f%n", balance);
-      return;
+  public void withdraw(double amount)
+      throws InvalidAmountException, InsufficientFundsException, AccountFrozenException {
+    try {
+      if (frozen) {
+        throw new AccountFrozenException("Account is FROZEN. Unable to transact.");
+      }
+      System.out.printf("Amount withdrawn: %.2f%n", amount);
+      if (!Double.isFinite(amount) || amount <= 0) {
+        throw new InvalidAmountException("Invalid amount. Must be greater than 0");
+      }
+      if (amount > balance) {
+        throw new InsufficientFundsException("Insufficient balance.");
+      }
+    } catch (InvalidAmountException | InsufficientFundsException | AccountFrozenException exception) {
+      throw exception;
     }
 
     balance -= amount;
