@@ -47,7 +47,7 @@ public class BankAccount {
       }
       System.out.printf("Amount withdrawn: %.2f%n", amount);
       if (!Double.isFinite(amount) || amount <= 0) {
-        throw new InvalidAmountException("Invalid amount. Must be greater than 0");
+        throw new InvalidAmountException("Invalid amount. Must be greater than 0.");
       }
       if (amount > balance) {
         throw new InsufficientFundsException("Insufficient balance.");
