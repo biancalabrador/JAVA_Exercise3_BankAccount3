@@ -24,6 +24,8 @@ public class Main {
       acc1.withdraw(150);
       acc1.withdraw(100);
       acc1.deposit(213);
+      accM1.filterTransactionsAtOrAbove(200, acc1.getTransactionHistory());
+      accM1.sortTransactionsByAmount(acc1.getTransactionHistory());
     } catch (InvalidAmountException | InsufficientFundsException | AccountFrozenException e) {
       System.err.println("Error occurred: " + e.getMessage());
     }
